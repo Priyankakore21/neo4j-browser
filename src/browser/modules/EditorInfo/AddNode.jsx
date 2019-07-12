@@ -26,6 +26,16 @@ const IconButton = styled.button`
 function Node (props) {
   const [textField, handleToggle] = useState(false)
   const [nodeLabel, handleChange] = useState('')
+  // const [error, handleValidate] = useState("");
+
+  const handleValidate = value => {
+    let error = ''
+    if (!value) {
+      error = `${nodeLabel} field cannot be empty`
+    }
+    return error
+  }
+
   return (
     <React.Fragment>
       <ConfirmationButton
@@ -41,8 +51,12 @@ function Node (props) {
         }
         confirmIcon={<TickMarkIcon />}
         onConfirmed={() => {
-          handleToggle(!textField)
-          props.editEntityAction({ nodeLabel: nodeLabel }, 'create', 'node')
+          if (handleValidate(event.target.value) === '') {
+            props.editEntityAction({ nodeLabel: nodeLabel }, 'create', 'node')
+            handleToggle(!textField)
+          } else {
+            alert('error occurred')
+          }
         }}
       />
       {textField ? (
@@ -56,7 +70,7 @@ function Node (props) {
                   style={{
                     width: '120px'
                   }}
-                  onChange={() => {
+                  onChange={event => {
                     handleChange(([event.target.id] = event.target.value))
                   }}
                 />
