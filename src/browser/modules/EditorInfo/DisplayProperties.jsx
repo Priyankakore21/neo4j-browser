@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { ConfirmationButton } from 'browser-components/buttons/ConfirmationButton'
-import { getStringValue } from './utils'
 import PropTypes from 'prop-types'
 import Property from './Property'
 import { ExpansionPanel } from './ExpansionPanel'
@@ -19,22 +18,19 @@ export const DisplayProperties = props => {
     requested: false
   }
 
-  const [propertiesState, updatePropertiesState] = useState(initState)
+  const [updatePropertiesState] = useState(initState)
 
   /**
    * useEffect accepts a function that updates the state whenever the props change
    * @param updatePropertiesState — Function that returns an updated state everytime props change
    * @param deps —  Will activate when the props change
    */
-  useEffect(
-    () => {
-      updatePropertiesState({
-        properties: { [displayPropertiesStateKey]: value },
-        requested: false
-      })
-    },
-    [value]
-  )
+  useEffect(() => {
+    updatePropertiesState({
+      properties: { [displayPropertiesStateKey]: value },
+      requested: false
+    })
+  }, [value])
 
   const panelActions = (
     <ConfirmationButton
